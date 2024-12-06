@@ -1,0 +1,27 @@
+rootProject.name = 'saga-app'
+
+// Główne moduły
+include 'common'
+include 'common:common-application'
+//include 'common:common-domain'
+//include 'common:common-entity'
+
+include 'discovery-service'
+include 'discovery-service:discovery-application'
+include 'discovery-service:discovery-starter'
+
+include 'gateway-api-service'
+include 'gateway-api-service:gateway-api-starter'
+
+include 'user-service'
+include 'user-service:user-starter'
+include 'user-service:user-adapters'
+
+
+
+// Pozostałe moduły
+//include 'infrastructure'
+//include 'infrastructure:kafka'
+//include 'order-service'
+//include 'payment-service'
+//include 'restaurant-service'

@@ -1,0 +1,48 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+/common/common-application/gradle/wrapper/gradle-wrapper.jar
+/common/gradle/wrapper/gradle-wrapper.jar
+/discovery-service/discovery-application/gradle/wrapper/gradle-wrapper.jar
+/discovery-service/discovery-starter/gradle/wrapper/gradle-wrapper.jar
+/discovery-service/gradle/wrapper/gradle-wrapper.jar
+/gateway-api-service/gateway-api-starter/gradle/wrapper/gradle-wrapper.jar
+/gateway-api-service/gradle/wrapper/gradle-wrapper.jar
+/gradle/wrapper/gradle-wrapper.jar
+/user-service/gradle/wrapper/gradle-wrapper.jar
+/user-service/user-adapters/gradle/wrapper/gradle-wrapper.jar
+/user-service/user-starter/gradle/wrapper/gradle-wrapper.jar

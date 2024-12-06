@@ -1,15 +1,15 @@
-package com.kozubek.useradapters.rest;
+package com.kozubek.orderadapters.rest;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/user")
-public class UserController {
+@RequestMapping("/api/order")
+public class OrderController {
 
     @GetMapping
     public String hello() {
-        return "Hello World from UserController";
+        return "Hello World from OrderController";
     }
 }

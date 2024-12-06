@@ -1,6 +1,5 @@
 rootProject.name = 'saga-app'
 
-// Główne moduły
 include 'common'
 include 'common:common-application'
 //include 'common:common-domain'
@@ -17,11 +16,20 @@ include 'user-service'
 include 'user-service:user-starter'
 include 'user-service:user-adapters'
 
+include 'order-service'
+include 'order-service:order-starter'
+include 'order-service:order-adapters'
 
+include 'inventory-service'
+include 'inventory-service:inventory-starter'
+include 'inventory-service:inventory-adapters'
+
+include 'payment-service'
+include 'payment-service:payment-starter'
+include 'payment-service:payment-adapters'
 
 // Pozostałe moduły
 //include 'infrastructure'
 //include 'infrastructure:kafka'
-//include 'order-service'
 //include 'payment-service'
 //include 'restaurant-service'

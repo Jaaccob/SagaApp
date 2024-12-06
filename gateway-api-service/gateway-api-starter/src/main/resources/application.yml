@@ -15,22 +15,37 @@ spring:
   cloud:
     gateway:
       routes[0]:
-        id: user-service
-        uri: lb://user-service
-        predicates:
-          - Path=/api/user
-      routes[1]:
         id: discovery-service
         uri: http://localhost:8761
         predicates:
           - Path=/eureka/web
         filters:
           - SetPath=/
-      routes[2]:
+      routes[1]:
         id: discovery-service-static
         uri: http://localhost:8761
         predicates:
           - Path=/eureka/**
+      routes[2]:
+        id: user-service
+        uri: lb://user-service
+        predicates:
+          - Path=/api/user
+      routes[3]:
+        id: order-service
+        uri: lb://order-service
+        predicates:
+          - Path=/api/order
+      routes[4]:
+        id: inventory-service
+        uri: lb://inventory-service
+        predicates:
+          - Path=/api/inventory
+      routes[5]:
+        id: payment-service
+        uri: lb://payment-service
+        predicates:
+          - Path=/api/payment
 logging:
   level:
     root: info

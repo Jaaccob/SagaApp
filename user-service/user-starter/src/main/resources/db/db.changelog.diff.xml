@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <include file="db/DDL/001-add_uuid_dependency.sql"/>
+    <include file="db/DDL/002-create-user-schema.sql"/>
+    <include file="db/DDL/003-add-user.sql"/>
+    <includeAll path="db/DML"/>
+
+    <includeAll path="db/changelog"/>
+</databaseChangeLog>

@@ -1,6 +1,25 @@
 spring:
   application:
     name: user-service
+  jpa:
+    open-in-view: false
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=user&binaryTransfer=true&reWriteBatchedInserts=true
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    defer-datasource-initialization: true
+  hikari:
+    schema: user
+  sql:
+    init:
+      mode: always
+      platform: postgres
+  liquibase:
+    change-log: classpath:db/db.changelog.diff.xml
+    default-schema: user
+
 server:
   port: 0
 logging:
@@ -11,3 +30,9 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka
+
+
+keycloak:
+  base-url: http://localhost:9080
+  realm-name: Saga-app
+  client-secret: ${KEYCLOAK_CLIENT_SECRET}

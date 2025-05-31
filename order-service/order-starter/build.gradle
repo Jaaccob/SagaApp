@@ -25,3 +25,7 @@ dependencyManagement {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+bootJar {
+    mainClass = 'com.kozubek.orderstarter.OrderStarterApplication'
+}

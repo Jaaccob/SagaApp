@@ -2,8 +2,10 @@ rootProject.name = 'saga-app'
 
 include 'common'
 include 'common:common-application'
-//include 'common:common-domain'
-//include 'common:common-entity'
+include 'common:common-domain'
+include 'common:common-entity'
+
+include 'infrastructure'
 
 include 'discovery-service'
 include 'discovery-service:discovery-application'
@@ -15,6 +17,9 @@ include 'gateway-api-service:gateway-api-starter'
 include 'user-service'
 include 'user-service:user-starter'
 include 'user-service:user-adapters'
+include 'user-service:user-application'
+include 'user-service:user-domain'
+include 'user-service:user-entities'
 
 include 'order-service'
 include 'order-service:order-starter'
@@ -29,7 +34,6 @@ include 'payment-service:payment-starter'
 include 'payment-service:payment-adapters'
 
 // Pozostałe moduły
-//include 'infrastructure'
 //include 'infrastructure:kafka'
 //include 'payment-service'
 //include 'restaurant-service'

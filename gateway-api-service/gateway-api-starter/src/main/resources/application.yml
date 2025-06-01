@@ -1,7 +1,6 @@
 server:
   port: 8080
 
-
 eureka:
   client:
     serviceUrl:
@@ -12,40 +11,12 @@ spring:
     name: gateway-api-service
   main:
     web-application-type: reactive
-  cloud:
-    gateway:
-      routes[0]:
-        id: discovery-service
-        uri: http://localhost:8761
-        predicates:
-          - Path=/eureka/web
-        filters:
-          - SetPath=/
-      routes[1]:
-        id: discovery-service-static
-        uri: http://localhost:8761
-        predicates:
-          - Path=/eureka/**
-      routes[2]:
-        id: user-service
-        uri: lb://user-service
-        predicates:
-          - Path=/api/user
-      routes[3]:
-        id: order-service
-        uri: lb://order-service
-        predicates:
-          - Path=/api/order
-      routes[4]:
-        id: inventory-service
-        uri: lb://inventory-service
-        predicates:
-          - Path=/api/inventory
-      routes[5]:
-        id: payment-service
-        uri: lb://payment-service
-        predicates:
-          - Path=/api/payment
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9080/realms/Saga-app
+
 logging:
   level:
     root: info

@@ -7,5 +7,15 @@ plugins {
 project(':user-service:user-starter') {
     dependencies {
         implementation project(':user-service:user-adapters')
+        implementation project(':user-service:user-application')
+        implementation project(':user-service:user-domain')
+        implementation project(':user-service:user-entities')
+    }
+}
+
+subprojects {
+    dependencies {
+        implementation project(':common:common-entity')
+        implementation project(':common:common-domain')
     }
 }

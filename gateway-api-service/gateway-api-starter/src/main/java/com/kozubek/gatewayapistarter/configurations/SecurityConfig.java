@@ -17,6 +17,7 @@ public class SecurityConfig {
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/eureka/**").permitAll()
                         .pathMatchers("/api/user/auth/register", "/api/user/auth/login").permitAll()
+                        .pathMatchers("/api/payment/**").hasAnyRole("PAYMENT_MANAGER_ROLE", "ADMIN_ROLE")
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))

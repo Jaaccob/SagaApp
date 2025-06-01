@@ -1,4 +1,4 @@
 package com.kozubek.commonapplication.exceptions;
 
-public class ErrorResponse extends RuntimeException {
+public record ErrorResponse(String code, String message) {
 }

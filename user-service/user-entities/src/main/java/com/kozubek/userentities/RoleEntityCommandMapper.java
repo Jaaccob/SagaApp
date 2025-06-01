@@ -3,13 +3,14 @@ package com.kozubek.userentities;
 import com.kozubek.userdomain.core.Role;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Component
 public class RoleEntityCommandMapper {
 
-    public Set<Role> roleEntitiesToRoles(Set<RoleEntity> roleEntities) {
+    public Set<Role> roleEntitiesToRoles(Collection<RoleEntity> roleEntities) {
         Set<Role> roles = new HashSet<>();
         for (RoleEntity roleEntity : roleEntities) {
             roles.add(roleEntityToRole(roleEntity));
@@ -30,6 +31,9 @@ public class RoleEntityCommandMapper {
     }
 
     private RoleEntity roleToRoleEntity(Role role) {
-        return new RoleEntity(role.getId().id(), role.getName());
+        return RoleEntity.builder()
+                .id(role.getId().id())
+                .name(role.getName())
+                .build();
     }
 }

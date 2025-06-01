@@ -12,7 +12,7 @@ public class Role implements AggregateRoot {
     private final String name;
 
     public Role(String name) {
-        this.id = new RoleId(UUID.randomUUID());
+        this.id = new RoleId(null);
         this.name = name;
     }
 

@@ -6,7 +6,7 @@ import com.kozubek.commonapplication.dtos.RegisterUser;
 
 public interface KeycloakUserPort {
 
-    void registerUserInKeycloak(RegisterUser commandUser);
+    String registerUserInKeycloak(RegisterUser commandUser);
 
     AuthenticationJWTToken loginUser(AuthenticationUser userCommand);
 }

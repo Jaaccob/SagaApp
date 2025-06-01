@@ -22,10 +22,11 @@ public class KeycloakKeycloakUserClientOut implements KeycloakUserPort {
         this.keycloakTokenProvider = keycloakTokenProvider;
     }
 
-    public void registerUserInKeycloak(RegisterUser commandUser) {
+    public String registerUserInKeycloak(RegisterUser commandUser) {
         String accessToken = keycloakTokenProvider.getAdminAccessToken();
         String userId = registerUserInKeycloak.registerUser(commandUser, accessToken);
         setUserRoleInKeycloak.setDefaultRole(userId, accessToken);
+        return userId;
     }
 
     public AuthenticationJWTToken loginUser(AuthenticationUser userCommand) {

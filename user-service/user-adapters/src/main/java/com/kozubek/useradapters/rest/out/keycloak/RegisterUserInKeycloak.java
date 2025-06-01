@@ -41,17 +41,14 @@ public class RegisterUserInKeycloak {
                 .bodyValue(body)
                 .retrieve()
                 .toBodilessEntity()
-                .onErrorMap(e -> new RuntimeException("Failed to register user in Keycloak", e))
+                .onErrorMap(e -> new RuntimeException("Failed to register user in Keycloak", e)) //todo - change this error to something precise
                 .block();
 
         if (Objects.isNull(response)) {
-            throw new RuntimeException("Failed to register user in Keycloak");
+            throw new RuntimeException("Failed to register user in Keycloak"); //todo - change this error to something precise
         }
 
-        String location = response.getHeaders()
-                .getLocation()
-                .toString();
-        return location.substring(location.lastIndexOf('/') + 1);
+        return getUserIdFromHeader(response);
     }
 
     private boolean userExistsInKeycloak(RegisterUser commandUser, String accessToken) {
@@ -83,5 +80,12 @@ public class RegisterUserInKeycloak {
         payload.put("credentials", List.of(credentials));
 
         return payload;
+    }
+
+    private String getUserIdFromHeader(ResponseEntity<Void> response) {
+        String location = response.getHeaders()
+                .getLocation()
+                .toString();
+        return location.substring(location.lastIndexOf('/') + 1);
     }
 }

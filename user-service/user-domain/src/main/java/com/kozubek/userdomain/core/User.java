@@ -67,7 +67,7 @@ public class User implements AggregateRoot {
 
         if (ObjectUtils.isEmpty(email)) {
             throw new UserDomainException("Email is required");
-        } else if (email.matches(emailRegex)) {
+        } else if (!email.matches(emailRegex)) {
             throw new UserDomainException("The email address provided is incorrect");
         }
     }

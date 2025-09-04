@@ -16,7 +16,7 @@ class UserTests {
 
     @Test
     void shouldValidateSuccessfullyForRegisteredUser() {
-        User user = User.builder()
+        final User user = User.builder()
                 .username("test123")
                 .password("Test123$")
                 .email("test@mail.com")
@@ -28,7 +28,7 @@ class UserTests {
 
     @Test
     void shouldThrowExceptionWhenUsernameIsNull() {
-        User user = User.builder()
+        final User user = User.builder()
                 .username(null)
                 .password("Test123$")
                 .email("test@mail.com")
@@ -40,40 +40,40 @@ class UserTests {
 
     @Test
     void shouldThrowExceptionWhenUsernameIsTooShort() {
-        User user = User.builder()
+        final User user = User.builder()
                 .username("test")
                 .password("Test123$")
                 .email("test@mail.com")
                 .roles(Set.of(role))
                 .build();
 
-        UserDomainException exception = assertThrows(UserDomainException.class, user::validateForRegistration);
+        final UserDomainException exception = assertThrows(UserDomainException.class, user::validateForRegistration);
         assertEquals("Username must be at least 6 characters", exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWhenUsernameIsTooLong() {
-        User user = User.builder()
+        final User user = User.builder()
                 .username("test-test-test-test-test-test-test-test-test-test")
                 .password("Test123$")
                 .email("test@mail.com")
                 .roles(Set.of(role))
                 .build();
 
-        UserDomainException exception = assertThrows(UserDomainException.class, user::validateForRegistration);
+        final UserDomainException exception = assertThrows(UserDomainException.class, user::validateForRegistration);
         assertEquals("Username is too long", exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWhenPasswordIsTooShort() {
-        User user = User.builder()
+        final User user = User.builder()
                 .username("test123")
                 .password("test")
                 .email("test@mail.com")
                 .roles(Set.of(role))
                 .build();
 
-        UserDomainException ex = assertThrows(UserDomainException.class, user::validateForRegistration);
+        final UserDomainException ex = assertThrows(UserDomainException.class, user::validateForRegistration);
         assertEquals("Password must be at least 6 characters", ex.getMessage());
     }
 

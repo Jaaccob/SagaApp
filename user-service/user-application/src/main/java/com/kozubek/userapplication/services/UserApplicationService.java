@@ -29,23 +29,23 @@ public class UserApplicationService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public Mono<UserId> registerUser(RegisterUser commandUser) {
-        Role role = roleApplicationService.getRoleFromCache(SystemRole.USER_ROLE);
-        User user = userMapper.registerUserToUserWithoutId(commandUser, role);
-        UserCreatedEvent userCreatedEvent = userDomainService.createUser(user);
+    public Mono<UserId> registerUser(final RegisterUser commandUser) {
+        final Role role = roleApplicationService.getRoleFromCache(SystemRole.USER_ROLE);
+        final User user = userMapper.registerUserToUserWithoutId(commandUser, role);
+        final UserCreatedEvent userCreatedEvent = userDomainService.createUser(user);
 
         return keycloakUserPort.registerUserInKeycloak(commandUser)
                 .map(userId -> {
-                    User userWithId = userMapper.registerUserToUser(commandUser, userId, role);
+                    final User userWithId = userMapper.registerUserToUser(commandUser, userId, role);
                     userRepository.save(userWithId);
                     log.info("User created: {}", userCreatedEvent.getUser());
                     return userWithId.getId();
                 });
     }
 
-    public Mono<AuthenticationJWTToken> loginUser(AuthenticationUser userCommand) {
-        User user = userMapper.authenticationUserToUser(userCommand);
-        UserLoggedEvent userLoggedEvent = userDomainService.logUser(user);
+    public Mono<AuthenticationJWTToken> loginUser(final AuthenticationUser userCommand) {
+        final User user = userMapper.authenticationUserToUser(userCommand);
+        final UserLoggedEvent userLoggedEvent = userDomainService.logUser(user);
         log.info("User logged: {}", userLoggedEvent.getUser());
         return keycloakUserPort.loginUser(userCommand);
     }

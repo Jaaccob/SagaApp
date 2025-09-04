@@ -16,7 +16,7 @@ public class ProductController {
 	}
 
 	@PostMapping
-	public String test(@RequestBody TestClass testClass) {
+	public String test(@RequestBody final TestClass testClass) {
 		return "Hello World from PaymentController " + testClass;
 	}
 }

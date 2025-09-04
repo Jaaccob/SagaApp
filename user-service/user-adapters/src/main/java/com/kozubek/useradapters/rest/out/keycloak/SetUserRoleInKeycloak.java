@@ -30,8 +30,8 @@ public class SetUserRoleInKeycloak {
         this.realmName = realmName;
     }
 
-    public Mono<Void> setDefaultRole(String userId, String accessToken) {
-        String defaultRole = SystemRole.USER_ROLE.getRoleName();
+    public Mono<Void> setDefaultRole(final String userId, final String accessToken) {
+        final String defaultRole = SystemRole.USER_ROLE.getRoleName();
 
         return getClientId(accessToken)
                 .doOnNext(clientId -> log.debug("Client ID: {}", clientId))
@@ -39,7 +39,7 @@ public class SetUserRoleInKeycloak {
                         .doOnNext(clientRoles -> log.debug("Available client roles: {}", clientRoles))
                         .flatMap(clientRoles -> {
                             // Znajdź rolę USER_ROLE
-                            Map<String, Object> userRole = clientRoles.stream()
+                            final Map<String, Object> userRole = clientRoles.stream()
                                     .filter(role -> defaultRole.equals(role.get("name")))
                                     .findFirst()
                                     .orElseThrow(() -> new RuntimeException("Role " + defaultRole + " not found"));
@@ -49,7 +49,7 @@ public class SetUserRoleInKeycloak {
                         }));
     }
 
-    private Mono<String> getClientId(String accessToken) {
+    private Mono<String> getClientId(final String accessToken) {
         return webClient.get()
                 .uri("/admin/realms/{realmName}/clients?clientId={clientId}", realmName, CLIENT_ID)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
@@ -57,14 +57,14 @@ public class SetUserRoleInKeycloak {
                 .bodyToMono(List.class)
                 .map(clients -> {
                     if (clients != null && !clients.isEmpty()) {
-                        Map<String, Object> client = (Map<String, Object>) clients.get(0);
+                        final Map<String, Object> client = (Map<String, Object>) clients.get(0);
                         return client.get("id").toString();
                     }
                     throw new RuntimeException("Client not found: " + CLIENT_ID);
                 });
     }
 
-    private Mono<List<Map<String, Object>>> getClientRoles(String clientId, String accessToken) {
+    private Mono<List<Map<String, Object>>> getClientRoles(final String clientId, final String accessToken) {
         return webClient.get()
                 .uri("/admin/realms/{realmName}/clients/{clientId}/roles", realmName, clientId)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
@@ -73,7 +73,7 @@ public class SetUserRoleInKeycloak {
 				});
     }
 
-    private Mono<Void> setClientRoleToUser(String accessToken, String userId, String clientId, List<Map<String, Object>> roles) {
+    private Mono<Void> setClientRoleToUser(final String accessToken, final String userId, final String clientId, final List<Map<String, Object>> roles) {
         return webClient.post()
                 .uri("/admin/realms/{realmName}/users/{userId}/role-mappings/clients/{clientId}", realmName, userId, clientId)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)

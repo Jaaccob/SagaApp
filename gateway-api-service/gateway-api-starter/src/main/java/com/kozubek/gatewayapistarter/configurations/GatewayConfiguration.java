@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class GatewayConfiguration {
 
     @Bean
-    public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
+    public RouteLocator gatewayRoutes(final RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("discovery-service", route -> route.path("/eureka/web")
                         .filters(filter -> filter.setPath("/"))

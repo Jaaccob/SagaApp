@@ -32,7 +32,7 @@ public class KeycloakTokenProvider {
     }
 
     public Mono<String> getAdminAccessToken() {
-        BodyInserters.FormInserter<String> body = getMetaData("admin", "admin", "admin-cli");
+        final BodyInserters.FormInserter<String> body = getMetaData("admin", "admin", "admin-cli");
 
         return webClient.post()
                 .uri("/realms/{realm}/protocol/openid-connect/token", "master")
@@ -43,8 +43,8 @@ public class KeycloakTokenProvider {
                 .map(response -> (String) response.get("access_token"));
     }
 
-    public Mono<AuthenticationJWTToken> getAccessToken(AuthenticationUser userCommand) {
-        BodyInserters.FormInserter<String> body = getMetaData(userCommand.username(), userCommand.password(), "microservice-saga-app")
+    public Mono<AuthenticationJWTToken> getAccessToken(final AuthenticationUser userCommand) {
+        final BodyInserters.FormInserter<String> body = getMetaData(userCommand.username(), userCommand.password(), "microservice-saga-app")
                 .with("client_secret", clientSecret);
 
         return webClient.post()
@@ -55,7 +55,7 @@ public class KeycloakTokenProvider {
                 .bodyToMono(AuthenticationJWTToken.class);
     }
 
-    private BodyInserters.FormInserter<String> getMetaData(String username, String password, String clientId) {
+    private BodyInserters.FormInserter<String> getMetaData(final String username, final String password, final String clientId) {
         return BodyInserters.fromFormData("grant_type", "password")
                 .with("client_id", clientId)
                 .with("username", username)

@@ -12,7 +12,6 @@ import reactor.core.publisher.Mono;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Component
 public class RegisterUserInKeycloak {
@@ -30,14 +29,14 @@ public class RegisterUserInKeycloak {
         this.realmName = realmName;
     }
 
-    public Mono<String> registerUser(RegisterUser commandUser, String accessToken) {
+    public Mono<String> registerUser(final RegisterUser commandUser, final String accessToken) {
         return userExistsInKeycloak(commandUser, accessToken)
                 .flatMap(exists -> {
                     if (exists) {
                         return Mono.error(new RuntimeException("User already exists"));
                     }
 
-                    Map<String, Object> body = buildUserPayload(commandUser);
+                    final Map<String, Object> body = buildUserPayload(commandUser);
                     return webClient.post()
                             .uri("/admin/realms/{realmName}/users", realmName)
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
@@ -49,7 +48,7 @@ public class RegisterUserInKeycloak {
                 });
     }
 
-    private Mono<Boolean> userExistsInKeycloak(RegisterUser commandUser, String accessToken) {
+    private Mono<Boolean> userExistsInKeycloak(final RegisterUser commandUser, final String accessToken) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/admin/realms/{realmName}/users")
@@ -63,8 +62,8 @@ public class RegisterUserInKeycloak {
                 .onErrorReturn(false);
     }
 
-    private String getUserIdFromHeader(ResponseEntity<Void> response) {
-        String locationHeader = response.getHeaders().getFirst(HttpHeaders.LOCATION);
+    private String getUserIdFromHeader(final ResponseEntity<Void> response) {
+        final String locationHeader = response.getHeaders().getFirst(HttpHeaders.LOCATION);
         if (locationHeader == null) {
             throw new RuntimeException("Location header not found in response");
         }
@@ -72,12 +71,12 @@ public class RegisterUserInKeycloak {
     }
 
     private Map<String, Object> buildUserPayload(final RegisterUser commandUser) {
-        Map<String, Object> credentials = new HashMap<>();
+        final Map<String, Object> credentials = new HashMap<>();
         credentials.put("type", "password");
         credentials.put("value", commandUser.password());
         credentials.put("temporary", false);
 
-        Map<String, Object> payload = new HashMap<>();
+        final Map<String, Object> payload = new HashMap<>();
         payload.put("username", commandUser.userName());
         payload.put("email", commandUser.email());
         payload.put("firstName", "qba");

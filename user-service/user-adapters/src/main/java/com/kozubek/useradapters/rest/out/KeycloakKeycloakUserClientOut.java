@@ -17,13 +17,13 @@ public class KeycloakKeycloakUserClientOut implements KeycloakUserPort {
     private final SetUserRoleInKeycloak setUserRoleInKeycloak;
     private final KeycloakTokenProvider keycloakTokenProvider;
 
-    public KeycloakKeycloakUserClientOut(RegisterUserInKeycloak registerUserInKeycloak, SetUserRoleInKeycloak setUserRoleInKeycloak, KeycloakTokenProvider keycloakTokenProvider) {
+    public KeycloakKeycloakUserClientOut(final RegisterUserInKeycloak registerUserInKeycloak, final SetUserRoleInKeycloak setUserRoleInKeycloak, final KeycloakTokenProvider keycloakTokenProvider) {
         this.registerUserInKeycloak = registerUserInKeycloak;
         this.setUserRoleInKeycloak = setUserRoleInKeycloak;
         this.keycloakTokenProvider = keycloakTokenProvider;
     }
 
-    public Mono<String> registerUserInKeycloak(RegisterUser commandUser) {
+    public Mono<String> registerUserInKeycloak(final RegisterUser commandUser) {
         return keycloakTokenProvider.getAdminAccessToken()
                 .flatMap(accessToken ->
                         registerUserInKeycloak.registerUser(commandUser, accessToken)
@@ -34,7 +34,7 @@ public class KeycloakKeycloakUserClientOut implements KeycloakUserPort {
                 );
     }
 
-    public Mono<AuthenticationJWTToken> loginUser(AuthenticationUser userCommand) {
+    public Mono<AuthenticationJWTToken> loginUser(final AuthenticationUser userCommand) {
         return keycloakTokenProvider.getAccessToken(userCommand);
     }
 }

@@ -23,13 +23,13 @@ public class UserController {
     }
 
     @PostMapping("/auth/register")
-    public Mono<ResponseEntity<UserId>> register(@RequestBody RegisterUser userCommand) {
+    public Mono<ResponseEntity<UserId>> register(@RequestBody final RegisterUser userCommand) {
         return userService.registerUser(userCommand)
                 .map(ResponseEntity::ok);
     }
 
     @PostMapping("/auth/login")
-    public Mono<ResponseEntity<AuthenticationJWTToken>> login(@RequestBody AuthenticationUser userCommand) {
+    public Mono<ResponseEntity<AuthenticationJWTToken>> login(@RequestBody final AuthenticationUser userCommand) {
         return userService.loginUser(userCommand)
                 .map(ResponseEntity::ok);
     }

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class SecurityConfig {
 
     @Bean
-    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+    public SecurityWebFilterChain springSecurityFilterChain(final ServerHttpSecurity http) {
         return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/eureka/**").permitAll()
@@ -42,33 +42,28 @@ public class SecurityConfig {
 
     @Bean
     public Converter<Jwt, Mono<AbstractAuthenticationToken>> jwtAuthenticationConverter() {
-        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        final JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwt -> {
-            List<String> authorities = new ArrayList<>();
+            final List<String> authorities = new ArrayList<>();
 
             log.debug("Raw JWT token claims: {}", jwt.getClaims());
 
-            // Pobierz role z realm_access
-            Map<String, Object> realmAccess = jwt.getClaimAsMap("realm_access");
+            final Map<String, Object> realmAccess = jwt.getClaimAsMap("realm_access");
             log.debug("Realm access data: {}", realmAccess);
             if (realmAccess != null) {
-                @SuppressWarnings("unchecked")
-                List<String> roles = (List<String>) realmAccess.get("roles");
+                @SuppressWarnings("unchecked") final List<String> roles = (List<String>) realmAccess.get("roles");
                 log.debug("Roles from realm_access: {}", roles);
                 if (roles != null) {
                     authorities.addAll(roles);
                 }
             }
 
-            // Pobierz role z resource_access dla naszego klienta
-            Map<String, Object> resourceAccess = jwt.getClaimAsMap("resource_access");
+            final Map<String, Object> resourceAccess = jwt.getClaimAsMap("resource_access");
             log.debug("Resource access data: {}", resourceAccess);
             if (resourceAccess != null) {
-                @SuppressWarnings("unchecked")
-                Map<String, Object> clientAccess = (Map<String, Object>) resourceAccess.get("microservice-saga-app");
+                @SuppressWarnings("unchecked") final Map<String, Object> clientAccess = (Map<String, Object>) resourceAccess.get("microservice-saga-app");
                 if (clientAccess != null) {
-                    @SuppressWarnings("unchecked")
-                    List<String> resourceRoles = (List<String>) clientAccess.get("roles");
+                    @SuppressWarnings("unchecked") final List<String> resourceRoles = (List<String>) clientAccess.get("roles");
                     log.debug("Roles from resource_access: {}", resourceRoles);
                     if (resourceRoles != null) {
                         authorities.addAll(resourceRoles);
@@ -76,18 +71,15 @@ public class SecurityConfig {
                 }
             }
 
-            // Pobierz grupy
-            @SuppressWarnings("unchecked")
-            List<String> groups = (List<String>) jwt.getClaims().get("groups");
+            @SuppressWarnings("unchecked") final List<String> groups = (List<String>) jwt.getClaims().get("groups");
             log.debug("Groups from token: {}", groups);
             if (groups != null) {
-                // Dodaj grupy bez modyfikacji, ponieważ już zawierają prefix ROLE_
                 authorities.addAll(groups);
             }
 
             log.debug("Final authorities list: {}", authorities);
             return authorities.stream()
-                    .distinct() // usuń duplikaty
+                    .distinct()
                     .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
         });

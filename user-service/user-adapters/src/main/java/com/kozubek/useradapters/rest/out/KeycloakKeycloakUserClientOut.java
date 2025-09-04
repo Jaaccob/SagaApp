@@ -8,6 +8,7 @@ import com.kozubek.useradapters.rest.out.keycloak.RegisterUserInKeycloak;
 import com.kozubek.useradapters.rest.out.keycloak.SetUserRoleInKeycloak;
 import com.kozubek.userapplication.port.KeycloakUserPort;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 @Component
 public class KeycloakKeycloakUserClientOut implements KeycloakUserPort {
@@ -22,14 +23,18 @@ public class KeycloakKeycloakUserClientOut implements KeycloakUserPort {
         this.keycloakTokenProvider = keycloakTokenProvider;
     }
 
-    public String registerUserInKeycloak(RegisterUser commandUser) {
-        String accessToken = keycloakTokenProvider.getAdminAccessToken();
-        String userId = registerUserInKeycloak.registerUser(commandUser, accessToken);
-        setUserRoleInKeycloak.setDefaultRole(userId, accessToken);
-        return userId;
+    public Mono<String> registerUserInKeycloak(RegisterUser commandUser) {
+        return keycloakTokenProvider.getAdminAccessToken()
+                .flatMap(accessToken ->
+                        registerUserInKeycloak.registerUser(commandUser, accessToken)
+                                .flatMap(userId ->
+                                        setUserRoleInKeycloak.setDefaultRole(userId, accessToken)
+                                                .thenReturn(userId)
+                                )
+                );
     }
 
-    public AuthenticationJWTToken loginUser(AuthenticationUser userCommand) {
+    public Mono<AuthenticationJWTToken> loginUser(AuthenticationUser userCommand) {
         return keycloakTokenProvider.getAccessToken(userCommand);
     }
 }

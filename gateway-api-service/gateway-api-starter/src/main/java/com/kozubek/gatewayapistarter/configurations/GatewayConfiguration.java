@@ -16,18 +16,16 @@ public class GatewayConfiguration {
                         .uri("http://localhost:8761"))
                 .route("discovery-service-static", route -> route.path("/eureka/**")
                         .uri("http://localhost:8761"))
-//                .route("user-service-register", route -> route.path("/api/user/auth/save")
-//                        .uri("lb://user-service"))
-//                .route("user-service-login", route -> route.path("/api/user/auth/login")
-//                        .uri("lb://user-service"))
                 .route("user-service", route -> route.path("/api/user/**")
                         .uri("lb://user-service"))
-                .route("order-service", route -> route.path("/api/order")
+                .route("order-service", route -> route.path("/api/order/**")
                         .uri("lb://order-service"))
-                .route("inventory-service", route -> route.path("/api/inventory")
+                .route("inventory-service", route -> route.path("/api/inventory/**")
                         .uri("lb://inventory-service"))
-                .route("payment-service", route -> route.path("/api/payment")
+                .route("payment-service", route -> route.path("/api/payment/**")
                         .uri("lb://payment-service"))
+                .route("product-service", route -> route.path("/api/product/**")
+                        .uri("lb://product-service"))
                 .build();
     }
 }

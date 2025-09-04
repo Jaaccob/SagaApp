@@ -16,6 +16,7 @@ import com.kozubek.userdomain.port.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -28,26 +29,24 @@ public class UserApplicationService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public UserId registerUser(RegisterUser commandUser) {
+    public Mono<UserId> registerUser(RegisterUser commandUser) {
         Role role = roleApplicationService.getRoleFromCache(SystemRole.USER_ROLE);
         User user = userMapper.registerUserToUserWithoutId(commandUser, role);
         UserCreatedEvent userCreatedEvent = userDomainService.createUser(user);
 
-        String userId = keycloakUserPort.registerUserInKeycloak(commandUser);
-        user = userMapper.registerUserToUser(commandUser, userId, role);
-        userRepository.save(user);
-
-        log.info("User created: {}", userCreatedEvent.getUser());
-        return user.getId();
+        return keycloakUserPort.registerUserInKeycloak(commandUser)
+                .map(userId -> {
+                    User userWithId = userMapper.registerUserToUser(commandUser, userId, role);
+                    userRepository.save(userWithId);
+                    log.info("User created: {}", userCreatedEvent.getUser());
+                    return userWithId.getId();
+                });
     }
 
-    public AuthenticationJWTToken loginUser(AuthenticationUser userCommand) {
+    public Mono<AuthenticationJWTToken> loginUser(AuthenticationUser userCommand) {
         User user = userMapper.authenticationUserToUser(userCommand);
-
         UserLoggedEvent userLoggedEvent = userDomainService.logUser(user);
-        AuthenticationJWTToken token = keycloakUserPort.loginUser(userCommand);
-
         log.info("User logged: {}", userLoggedEvent.getUser());
-        return token;
+        return keycloakUserPort.loginUser(userCommand);
     }
 }

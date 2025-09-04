@@ -1,0 +1,47 @@
+plugins {
+	id 'java'
+}
+
+subprojects {
+    if (project.name.endsWith('-starter')) {
+        apply plugin: 'org.springframework.boot'
+    } else {
+        apply plugin: 'java-library'
+    }
+
+    apply plugin: 'io.spring.dependency-management'
+
+    configureDependencyManagement(it)
+
+    dependencies {
+        compileOnly libs.lombok
+        annotationProcessor libs.lombok
+        testImplementation libs.springBootTest
+
+        implementation project(':common:common-domain')
+    }
+}
+
+project(':product-service:product-starter') {
+    dependencies {
+        implementation project(':product-service:product-adapters')
+
+        implementation libs.springCloudEurekaClient
+        implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
+    }
+
+    bootJar {
+        mainClass = 'com.kozubek.productstarter.ProductStarterApplication'
+    }
+}
+
+project(':product-service:product-adapters') {
+    dependencies {
+        implementation project(':common:common-application')
+
+//        implementation libs.springBootDataJpa
+//        implementation libs.liquibase
+//        implementation libs.postgresql
+        implementation libs.springBootWeb
+    }
+}

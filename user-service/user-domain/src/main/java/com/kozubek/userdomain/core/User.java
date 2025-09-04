@@ -63,11 +63,11 @@ public class User implements AggregateRoot {
     }
 
     private void validateEmail() {
-        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        String emailRegex = "^[A-Za-z0-9+_.-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,7}$";
 
         if (ObjectUtils.isEmpty(email)) {
             throw new UserDomainException("Email is required");
-        } else if (email.matches(emailRegex)) {
+        } else if (!email.matches(emailRegex)) {
             throw new UserDomainException("The email address provided is incorrect");
         }
     }

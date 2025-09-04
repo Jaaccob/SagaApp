@@ -8,6 +8,7 @@ import com.kozubek.userapplication.services.UserApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,14 +23,14 @@ public class UserController {
     }
 
     @PostMapping("/auth/register")
-    public ResponseEntity<UserId> register(@RequestBody RegisterUser userCommand) {
-        UserId registeredUser = userService.registerUser(userCommand);
-        return ResponseEntity.ok(registeredUser);
+    public Mono<ResponseEntity<UserId>> register(@RequestBody RegisterUser userCommand) {
+        return userService.registerUser(userCommand)
+                .map(ResponseEntity::ok);
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<AuthenticationJWTToken> login(@RequestBody AuthenticationUser userCommand) {
-        AuthenticationJWTToken token = userService.loginUser(userCommand);
-        return ResponseEntity.ok(token);
+    public Mono<ResponseEntity<AuthenticationJWTToken>> login(@RequestBody AuthenticationUser userCommand) {
+        return userService.loginUser(userCommand)
+                .map(ResponseEntity::ok);
     }
 }

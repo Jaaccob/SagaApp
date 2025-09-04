@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class KeycloakTokenProvider {
         this.clientSecret = clientSecret;
     }
 
-    public String getAdminAccessToken() {
+    public Mono<String> getAdminAccessToken() {
         BodyInserters.FormInserter<String> body = getMetaData("admin", "admin", "admin-cli");
 
         return webClient.post()
@@ -39,20 +40,19 @@ public class KeycloakTokenProvider {
                 .body(body)
                 .retrieve()
                 .bodyToMono(Map.class)
-                .map(response -> (String) response.get("access_token"))
-                .block();
+                .map(response -> (String) response.get("access_token"));
     }
 
-    public AuthenticationJWTToken getAccessToken(AuthenticationUser userCommand) {
+    public Mono<AuthenticationJWTToken> getAccessToken(AuthenticationUser userCommand) {
         BodyInserters.FormInserter<String> body = getMetaData(userCommand.username(), userCommand.password(), "microservice-saga-app")
                 .with("client_secret", clientSecret);
 
         return webClient.post()
                 .uri("/realms/{realm}/protocol/openid-connect/token", realmName)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(body)
                 .retrieve()
-                .bodyToMono(AuthenticationJWTToken.class)
-                .block();
+                .bodyToMono(AuthenticationJWTToken.class);
     }
 
     private BodyInserters.FormInserter<String> getMetaData(String username, String password, String clientId) {

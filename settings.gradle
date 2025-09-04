@@ -33,7 +33,10 @@ include 'payment-service'
 include 'payment-service:payment-starter'
 include 'payment-service:payment-adapters'
 
+include 'product-service'
+include 'product-service:product-starter'
+include 'product-service:product-adapters'
+
 // Pozostałe moduły
 //include 'infrastructure:kafka'
-//include 'payment-service'
 //include 'restaurant-service'

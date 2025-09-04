@@ -3,10 +3,11 @@ package com.kozubek.userapplication.port;
 import com.kozubek.commonapplication.dtos.AuthenticationJWTToken;
 import com.kozubek.commonapplication.dtos.AuthenticationUser;
 import com.kozubek.commonapplication.dtos.RegisterUser;
+import reactor.core.publisher.Mono;
 
 public interface KeycloakUserPort {
 
-    String registerUserInKeycloak(RegisterUser commandUser);
+    Mono<String> registerUserInKeycloak(RegisterUser commandUser);
 
-    AuthenticationJWTToken loginUser(AuthenticationUser userCommand);
+    Mono<AuthenticationJWTToken> loginUser(AuthenticationUser userCommand);
 }

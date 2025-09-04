@@ -1,4 +1,42 @@
 plugins {
     id 'java'
-    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+subprojects {
+    if (project.name.endsWith('-starter')) {
+        apply plugin: 'org.springframework.boot'
+    } else {
+        apply plugin: 'java-library'
+    }
+
+    apply plugin: 'io.spring.dependency-management'
+
+    configureDependencyManagement(it)
+}
+
+project(':gateway-api-service:gateway-api-starter') {
+    dependencies {
+        // Spring Cloud - selektywnie dodane tylko dla tego modułu
+//        implementation libs.springCloudGateway
+        implementation libs.springCloudGatewayWebflux
+        implementation libs.springCloudEurekaClient
+
+        // Spring Security - selektywnie dodane tylko dla tego modułu
+        implementation libs.springBootSecurity
+        implementation libs.springSecurity
+        implementation libs.springBootOAuth2ResourceServer
+
+        // Spring WebFlux - selektywnie dodane tylko dla tego modułu
+        implementation libs.springBootWebflux
+
+        implementation project(':common:common-application')
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
+    bootJar {
+        mainClass = 'com.kozubek.gatewayapistarter.GatewayApiStarterApplication'
+    }
 }

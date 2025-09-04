@@ -1,31 +1,3 @@
-plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.4.0'
-    id 'io.spring.dependency-management' version '1.1.6'
-}
+// Ten plik jest tylko referencją.
+// Wszystkie zależności i konfiguracje są zarządzane centralnie w pliku user-service/build.gradle
 
-dependencies {
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.2.0'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-
-    //Spring data
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.4.0'
-}
-
-ext {
-    set('springCloudVersion', "2024.0.0")
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-    }
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
-bootJar {
-    mainClass = 'com.kozubek.userstarter.UserStarterApplication'
-}

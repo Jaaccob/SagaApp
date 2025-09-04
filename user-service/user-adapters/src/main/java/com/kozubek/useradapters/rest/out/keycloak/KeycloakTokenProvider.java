@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
@@ -30,8 +31,8 @@ public class KeycloakTokenProvider {
         this.clientSecret = clientSecret;
     }
 
-    public String getAdminAccessToken() {
-        BodyInserters.FormInserter<String> body = getMetaData("admin", "admin", "admin-cli");
+    public Mono<String> getAdminAccessToken() {
+        final BodyInserters.FormInserter<String> body = getMetaData("admin", "admin", "admin-cli");
 
         return webClient.post()
                 .uri("/realms/{realm}/protocol/openid-connect/token", "master")
@@ -39,23 +40,22 @@ public class KeycloakTokenProvider {
                 .body(body)
                 .retrieve()
                 .bodyToMono(Map.class)
-                .map(response -> (String) response.get("access_token"))
-                .block();
+                .map(response -> (String) response.get("access_token"));
     }
 
-    public AuthenticationJWTToken getAccessToken(AuthenticationUser userCommand) {
-        BodyInserters.FormInserter<String> body = getMetaData(userCommand.username(), userCommand.password(), "microservice-saga-app")
+    public Mono<AuthenticationJWTToken> getAccessToken(final AuthenticationUser userCommand) {
+        final BodyInserters.FormInserter<String> body = getMetaData(userCommand.username(), userCommand.password(), "microservice-saga-app")
                 .with("client_secret", clientSecret);
 
         return webClient.post()
                 .uri("/realms/{realm}/protocol/openid-connect/token", realmName)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(body)
                 .retrieve()
-                .bodyToMono(AuthenticationJWTToken.class)
-                .block();
+                .bodyToMono(AuthenticationJWTToken.class);
     }
 
-    private BodyInserters.FormInserter<String> getMetaData(String username, String password, String clientId) {
+    private BodyInserters.FormInserter<String> getMetaData(final String username, final String password, final String clientId) {
         return BodyInserters.fromFormData("grant_type", "password")
                 .with("client_id", clientId)
                 .with("username", username)

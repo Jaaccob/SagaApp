@@ -37,7 +37,7 @@ out/
 .vscode/
 /common/common-application/gradle/wrapper/gradle-wrapper.jar
 /common/gradle/wrapper/gradle-wrapper.jar
-/discovery-service/discovery-application/gradle/wrapper/gradle-wrapper.jar
+
 /discovery-service/discovery-starter/gradle/wrapper/gradle-wrapper.jar
 /discovery-service/gradle/wrapper/gradle-wrapper.jar
 /gateway-api-service/gateway-api-starter/gradle/wrapper/gradle-wrapper.jar
@@ -46,3 +46,6 @@ out/
 /user-service/gradle/wrapper/gradle-wrapper.jar
 /user-service/user-adapters/gradle/wrapper/gradle-wrapper.jar
 /user-service/user-starter/gradle/wrapper/gradle-wrapper.jar
+/product-service/gradle/wrapper/gradle-wrapper.jar
+/product-service/user-adapters/gradle/wrapper/gradle-wrapper.jar
+/product-service/user-starter/gradle/wrapper/gradle-wrapper.jar

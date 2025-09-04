@@ -25,3 +25,6 @@ logging:
       springframework:
         cloud:
           gateway: INFO
+        security: DEBUG
+        security.oauth2: TRACE
+    com.kozubek.gatewayapistarter: DEBUG

@@ -1,18 +1,24 @@
 package com.kozubek.useradapters.rest.out.keycloak;
 
+import com.kozubek.commonapplication.enums.SystemRole;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+import org.springframework.core.ParameterizedTypeReference;
 
 import java.util.List;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class SetUserRoleInKeycloak {
     private final WebClient webClient;
     private final String realmName;
+    private static final String CLIENT_ID = "microservice-saga-app";
 
     public SetUserRoleInKeycloak(
             @Value("${keycloak.base-url}") final String baseUrl,
@@ -24,28 +30,55 @@ public class SetUserRoleInKeycloak {
         this.realmName = realmName;
     }
 
-    public void setDefaultRole(String userId, String accessToken) {
-        String defaultRole = "USER_ROLE";
-        Map<String, Object> roles = fetchRolesFromKeycloak(accessToken, defaultRole);
-        setRoleToUser(accessToken, userId, roles);
+    public Mono<Void> setDefaultRole(final String userId, final String accessToken) {
+        final String defaultRole = SystemRole.USER_ROLE.getRoleName();
+
+        return getClientId(accessToken)
+                .doOnNext(clientId -> log.debug("Client ID: {}", clientId))
+                .flatMap(clientId -> getClientRoles(clientId, accessToken)
+                        .doOnNext(clientRoles -> log.debug("Available client roles: {}", clientRoles))
+                        .flatMap(clientRoles -> {
+                            final Map<String, Object> userRole = clientRoles.stream()
+                                    .filter(role -> defaultRole.equals(role.get("name")))
+                                    .findFirst()
+                                    .orElseThrow(() -> new RuntimeException("Role " + defaultRole + " not found"));
+
+                            return setClientRoleToUser(accessToken, userId, clientId, List.of(userRole));
+                        }));
     }
 
-    private Map<String, Object> fetchRolesFromKeycloak(String accessToken, String defaultRole) {
+    private Mono<String> getClientId(final String accessToken) {
         return webClient.get()
-                .uri("/admin/realms/{realmName}/roles/{roleName}", realmName, defaultRole)
+                .uri("/admin/realms/{realmName}/clients?clientId={clientId}", realmName, CLIENT_ID)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .retrieve()
-                .bodyToMono(Map.class)
-                .block();
+                .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {})
+                .map(this::extractClientId);
     }
 
-    private void setRoleToUser(String accessToken, String userId, Map<String, Object> roles ) {
-        webClient.post()
-                .uri("/admin/realms/{realmName}/users/{userId}/role-mappings/realm", realmName, userId)
+    private String extractClientId(final List<Map<String, Object>> clients) {
+        return clients.stream()
+                .findFirst()
+                .map(client -> client.get("id").toString())
+                .orElseThrow(() -> new RuntimeException("Client not found: " + CLIENT_ID));
+    }
+
+    private Mono<List<Map<String, Object>>> getClientRoles(final String clientId, final String accessToken) {
+        return webClient.get()
+                .uri("/admin/realms/{realmName}/clients/{clientId}/roles", realmName, clientId)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .bodyValue(List.of(roles))
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<>() {
+				});
+    }
+
+    private Mono<Void> setClientRoleToUser(final String accessToken, final String userId, final String clientId, final List<Map<String, Object>> roles) {
+        return webClient.post()
+                .uri("/admin/realms/{realmName}/users/{userId}/role-mappings/clients/{clientId}", realmName, userId, clientId)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .bodyValue(roles)
                 .retrieve()
                 .toBodilessEntity()
-                .block();
+                .then();
     }
 }

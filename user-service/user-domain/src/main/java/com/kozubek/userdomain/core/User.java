@@ -48,13 +48,13 @@ public class User implements AggregateRoot {
             throw new UserDomainException("Password contains '<>'");
         }
 
-        boolean hasSpecialCharacters = password.chars()
+        final boolean hasSpecialCharacters = password.chars()
                 .anyMatch(character -> !Character.isLetterOrDigit(character));
         if (!hasSpecialCharacters) {
             throw new UserDomainException("Password must contain at least one character");
         }
 
-        boolean hasUpperCharacters = password.chars()
+        final boolean hasUpperCharacters = password.chars()
                 .anyMatch(Character::isUpperCase);
 
         if (!hasUpperCharacters) {
@@ -63,11 +63,11 @@ public class User implements AggregateRoot {
     }
 
     private void validateEmail() {
-        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        final String emailRegex = "^[A-Za-z0-9+_.-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,7}$";
 
         if (ObjectUtils.isEmpty(email)) {
             throw new UserDomainException("Email is required");
-        } else if (email.matches(emailRegex)) {
+        } else if (!email.matches(emailRegex)) {
             throw new UserDomainException("The email address provided is incorrect");
         }
     }

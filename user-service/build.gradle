@@ -1,7 +1,26 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.4.0'
-    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+subprojects {
+    if (project.name.endsWith('-starter')) {
+        apply plugin: 'org.springframework.boot'
+    } else {
+        apply plugin: 'java-library'
+    }
+
+    apply plugin: 'io.spring.dependency-management'
+
+    configureDependencyManagement(it)
+
+    dependencies {
+        implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+        compileOnly libs.lombok
+        annotationProcessor libs.lombok
+        testImplementation libs.springBootTest
+
+        implementation project(':common:common-domain')
+    }
 }
 
 project(':user-service:user-starter') {
@@ -10,12 +29,54 @@ project(':user-service:user-starter') {
         implementation project(':user-service:user-application')
         implementation project(':user-service:user-domain')
         implementation project(':user-service:user-entities')
+
+        implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
+        implementation libs.springCloudEurekaClient
+        implementation libs.springBootDataJpa
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
+    bootJar {
+        mainClass = 'com.kozubek.userstarter.UserStarterApplication'
     }
 }
 
-subprojects {
+project(':user-service:user-adapters') {
     dependencies {
-        implementation project(':common:common-entity')
-        implementation project(':common:common-domain')
+        implementation project(':common:common-application')
+        implementation project(':user-service:user-application')
+        implementation project(':user-service:user-domain')
+        implementation project(':user-service:user-entities')
+
+        implementation libs.springBootDataJpa
+        implementation libs.liquibase
+        implementation libs.postgresql
+        implementation libs.springBootWebflux
+    }
+}
+
+project(':user-service:user-application') {
+    dependencies {
+        implementation project(':common:common-application')
+        implementation project(':user-service:user-domain')
+        implementation project(':user-service:user-entities')
+        implementation libs.springContext
+        implementation libs.springBootWebflux
+    }
+}
+
+project(':user-service:user-entities') {
+    dependencies {
+        implementation project(':user-service:user-domain')
+        implementation libs.springBootDataJpa
+    }
+}
+
+project(':user-service:user-domain') {
+    dependencies {
+        implementation libs.springContext
     }
 }

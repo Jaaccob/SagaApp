@@ -38,13 +38,11 @@ public class SetUserRoleInKeycloak {
                 .flatMap(clientId -> getClientRoles(clientId, accessToken)
                         .doOnNext(clientRoles -> log.debug("Available client roles: {}", clientRoles))
                         .flatMap(clientRoles -> {
-                            // Znajdź rolę USER_ROLE
                             final Map<String, Object> userRole = clientRoles.stream()
                                     .filter(role -> defaultRole.equals(role.get("name")))
                                     .findFirst()
                                     .orElseThrow(() -> new RuntimeException("Role " + defaultRole + " not found"));
 
-                            // Przypisz rolę do użytkownika
                             return setClientRoleToUser(accessToken, userId, clientId, List.of(userRole));
                         }));
     }
@@ -54,14 +52,15 @@ public class SetUserRoleInKeycloak {
                 .uri("/admin/realms/{realmName}/clients?clientId={clientId}", realmName, CLIENT_ID)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .retrieve()
-                .bodyToMono(List.class)
-                .map(clients -> {
-                    if (clients != null && !clients.isEmpty()) {
-                        final Map<String, Object> client = (Map<String, Object>) clients.get(0);
-                        return client.get("id").toString();
-                    }
-                    throw new RuntimeException("Client not found: " + CLIENT_ID);
-                });
+                .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {})
+                .map(this::extractClientId);
+    }
+
+    private String extractClientId(final List<Map<String, Object>> clients) {
+        return clients.stream()
+                .findFirst()
+                .map(client -> client.get("id").toString())
+                .orElseThrow(() -> new RuntimeException("Client not found: " + CLIENT_ID));
     }
 
     private Mono<List<Map<String, Object>>> getClientRoles(final String clientId, final String accessToken) {

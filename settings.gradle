@@ -36,6 +36,9 @@ include 'payment-service:payment-adapters'
 include 'product-service'
 include 'product-service:product-starter'
 include 'product-service:product-adapters'
+include 'product-service:product-application'
+include 'product-service:product-domain'
+include 'product-service:product-entities'
 
 // Pozostałe moduły
 //include 'infrastructure:kafka'

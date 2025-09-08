@@ -1,6 +1,25 @@
 spring:
   application:
-    name: payment-service
+    name: product-service
+  jpa:
+    open-in-view: false
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=product&binaryTransfer=true&reWriteBatchedInserts=true
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    defer-datasource-initialization: true
+  hikari:
+    schema: product
+  sql:
+    init:
+      mode: always
+      platform: postgres
+  liquibase:
+    change-log: classpath:db/db.changelog.diff.xml
+    default-schema: product
+
 server:
   port: 0
 logging:

@@ -30,9 +30,9 @@ project(':user-service:user-starter') {
         implementation project(':user-service:user-domain')
         implementation project(':user-service:user-entities')
 
-        implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
         implementation libs.springCloudEurekaClient
         implementation libs.springBootDataJpa
+        implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
     }
 
     tasks.named('test') {

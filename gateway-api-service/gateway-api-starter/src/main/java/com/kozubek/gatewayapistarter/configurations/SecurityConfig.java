@@ -30,9 +30,11 @@ public class SecurityConfig {
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/eureka/**").permitAll()
                         .pathMatchers("/api/user/auth/register", "/api/user/auth/login").permitAll()
+                        .pathMatchers("/api/user/**").hasAnyAuthority("ROLE_USER", "ROLE_SENIOR_MANAGER")
                         .pathMatchers("/api/payment/**").hasAnyAuthority("ROLE_FINANCIAL_MANAGER", "ROLE_SENIOR_MANAGER")
                         .pathMatchers("/api/inventory/**").hasAnyAuthority("ROLE_INVENTORY_MANAGER", "ROLE_SENIOR_MANAGER")
                         .pathMatchers("/api/order/**").hasAnyAuthority("ROLE_ORDER_MANAGER", "ROLE_SENIOR_MANAGER")
+                        .pathMatchers("/api/product/**").hasAnyAuthority("ROLE_WAREHOUSE_MANAGER", "ROLE_SENIOR_MANAGER")
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth -> oauth

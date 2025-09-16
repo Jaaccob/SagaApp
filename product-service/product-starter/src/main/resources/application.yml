@@ -1,13 +1,48 @@
-spring:
-  application:
-    name: payment-service
 server:
   port: 0
+
 logging:
   level:
     com.kozubek.app: DEBUG
+
+spring:
+  application:
+    name: product-service
+  jpa:
+    open-in-view: false
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=product&binaryTransfer=true&reWriteBatchedInserts=true
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    defer-datasource-initialization: true
+  hikari:
+    schema: product
+  sql:
+    init:
+      mode: always
+      platform: postgres
+  liquibase:
+    change-log: classpath:db/db.changelog.diff.xml
+    default-schema: product
 
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka
+
+kafka-config:
+  bootstrap-servers: localhost:9092
+  schema-registry-url: http://localhost:8081
+  num-of-partitions: 6
+  replication-factor: 2
+  producer:
+    batch-size: 16384
+    batch-size-boost-factor: 100
+    linger-ms: 5
+    request-timeout-ms: 60000
+    retry-count: 5
+
+product-service:
+  product-created-topic-name: product-created-events

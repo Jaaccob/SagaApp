@@ -6,6 +6,7 @@ include 'common:common-domain'
 include 'common:common-entity'
 
 include 'infrastructure'
+include 'infrastructure:kafka'
 
 include 'discovery-service'
 include 'discovery-service:discovery-application'
@@ -36,6 +37,9 @@ include 'payment-service:payment-adapters'
 include 'product-service'
 include 'product-service:product-starter'
 include 'product-service:product-adapters'
+include 'product-service:product-application'
+include 'product-service:product-domain'
+include 'product-service:product-entities'
 
 // Pozostałe moduły
 //include 'infrastructure:kafka'

@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'io.spring.dependency-management'
+
+    configureDependencyManagement(it)
+
+    dependencies {
+        compileOnly libs.lombok
+        annotationProcessor libs.lombok
+        testImplementation libs.springBootTest
+    }
+}
+
+project(':infrastructure:kafka') {
+    dependencies {
+        implementation libs.springBootWeb
+        implementation "org.springframework.kafka:spring-kafka:3.3.5"
+    }
+}

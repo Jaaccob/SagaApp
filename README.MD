@@ -24,12 +24,13 @@ KEYCLOAK:
     5. Fetch the client secret from the `Credentials` tab and set it in the VM options of the user-service application:
         - `-Dkeycloak.credentials.secret=your-client-secret`
     6. Set roles for the microservice-saga-app clients:
-        - Go to the `Roles` tab and create a role `ROLE_USER`, `ROLE_FINANCIAL_MANAGER`, `ROLE_INVENTORY_MANAGER`, `ROLE_ORDER_MANAGER`, `ROLE_SENIOR_MANAGER`
+        - Go to the `Roles` tab and create a role `ROLE_USER`, `ROLE_FINANCIAL_MANAGER`, `ROLE_INVENTORY_MANAGER`, `ROLE_ORDER_MANAGER`,`ROLE_SENIOR_MANAGER`,`ROLE_WAREHOUSE_MANAGER`
     7. Create groups for the microservice-saga-app clients:
         - Go to the `Groups` tab and create a group `Managers`
         - Create a subgroup `Financial Managers` under `Managers`
         - Create a subgroup `Inventory Managers` under `Managers`
         - Create a subgroup `Order Managers` under `Managers`
+        - Create a subgroup `Warehouse Managers` under `Managers`
     8. Assign roles to the subgroups:
         - Go to the `Groups` tab and select the `Financial Managers` group
         - Go to the `Role Mappings` tab and assign the `ROLE_FINANCIAL_MANAGER` role

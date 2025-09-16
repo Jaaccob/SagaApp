@@ -6,6 +6,7 @@ include 'common:common-domain'
 include 'common:common-entity'
 
 include 'infrastructure'
+include 'infrastructure:kafka'
 
 include 'discovery-service'
 include 'discovery-service:discovery-application'

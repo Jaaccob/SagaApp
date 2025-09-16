@@ -41,9 +41,11 @@ project(':product-service:product-starter') {
 
 project(':product-service:product-adapters') {
     dependencies {
+        implementation project(':common:common-application') //TODO jk - not sure
         implementation project(':product-service:product-application')
         implementation project(':product-service:product-domain')
         implementation project(':product-service:product-entities')
+        implementation project(':infrastructure:kafka')
 
         implementation libs.springBootWeb
         implementation libs.springBootDataJpa

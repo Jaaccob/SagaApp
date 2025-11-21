@@ -5,8 +5,7 @@ import com.kozubek.productapplication.query.dto.ProductProjection;
 import org.springframework.stereotype.Component;
 
 @Component
-class ProductQueryRestMapper {
-
+public class ProductQueryRestMapper {
     public GetDetailsProductResponse productToGetDetailsProductResponse(final ProductProjection product) {
         return GetDetailsProductResponse.builder()
                 .productId(product.productId())

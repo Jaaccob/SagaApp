@@ -4,11 +4,8 @@ import com.kozubek.commondomain.vo.Money;
 import com.kozubek.commondomain.vo.ProductId;
 import com.kozubek.commondomain.vo.UserId;
 import com.kozubek.productdomain.core.Product;
-import org.springframework.stereotype.Component;
 
-@Component
 public class ProductEntityCommandMapper {
-
     public ProductEntity productToProductEntity(final Product product) {
         return ProductEntity.builder()
                 .id(product.getId().id())

@@ -1,8 +1,11 @@
 package com.kozubek.commondomain.vo;
 
+import com.kozubek.ddd.annotation.domaindrivendesign.ValueObject;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+@ValueObject
 public record Money(BigDecimal amount) {
 
     public Money(final BigDecimal amount) {

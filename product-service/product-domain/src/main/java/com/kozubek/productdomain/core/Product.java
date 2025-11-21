@@ -1,10 +1,10 @@
 package com.kozubek.productdomain.core;
 
-import com.kozubek.commondomain.model.AggregateRoot;
 import com.kozubek.commondomain.vo.Money;
 import com.kozubek.commondomain.vo.ProductId;
 import com.kozubek.commondomain.vo.ProductStatus;
 import com.kozubek.commondomain.vo.UserId;
+import com.kozubek.ddd.annotation.domaindrivendesign.AggregateRoot;
 import com.kozubek.productdomain.exception.ProductDomainException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,10 +12,11 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+@AggregateRoot
 @AllArgsConstructor
 @Builder
 @Getter
-public class Product implements AggregateRoot {
+public class Product {
 
     private ProductId id;
     private UserId userId;
@@ -25,7 +26,7 @@ public class Product implements AggregateRoot {
     private int quantity;
     private ProductStatus status;
 
-    public void inicjalze() {
+    public void initialize() {
         id = new ProductId(UUID.randomUUID());
         status = ProductStatus.AVAILABLE;
     }
@@ -41,7 +42,7 @@ public class Product implements AggregateRoot {
 
     public void validatePrice() {
         if (!price.isGreaterThanZero()) {
-            throw new ProductDomainException("Product price: " + price.amount() + " must be greated than zero");
+            throw new ProductDomainException("Product price: " + price.amount() + " must be greater than zero");
         }
     }
 

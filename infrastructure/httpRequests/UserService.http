@@ -1,0 +1,32 @@
+### Testing endpoint
+# Request testowy
+# Bez tokenu nie zadziała
+
+GET {{BASE_URL}}/user/auth/hello
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+### Register user in system
+# Requset do testowania rejestracji użytkownika w systemie. Nadawane są podstawowe uprawnienia (ROLE_USER) w keycloak
+POST {{BASE_URL}}/api/user/auth/register
+Content-Type: application/json
+
+{
+  "userName": "test11",
+  "password": "Test1!",
+  "email": "test@mail.com"
+}
+
+### Loger user to system
+# Request do testowania logowania użytkownika w systemie
+POST {{BASE_URL}}/user/auth/login
+Content-Type: application/json
+
+{
+  "username": "test11",
+  "password": "Test1!"
+}
+
+> {%
+    client.global.set("ACCESS_TOKEN", response.body.access_token)
+%}

@@ -1,20 +1,16 @@
 package com.kozubek.productdomain;
 
+import com.kozubek.ddd.annotation.domaindrivendesign.DomainService;
 import com.kozubek.productdomain.core.Product;
 import com.kozubek.productdomain.event.ProductCreatedEvent;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 
-@Component
-@Slf4j
+@DomainService
 public class ProductDomainService {
-
-    public ProductCreatedEvent create(final Product product) {
-        product.inicjalze();
-        product.validate();
-        log.info("Product {} has been created", product);
-        return new ProductCreatedEvent(product, Instant.now());
-    }
+	public ProductCreatedEvent create(final Product product) {
+		product.initialize();
+		product.validate();
+		return new ProductCreatedEvent(product, Instant.now());
+	}
 }

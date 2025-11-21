@@ -28,7 +28,6 @@ project(':inventory-service:inventory-starter') {
 
         implementation libs.springCloudEurekaClient
         implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
-//        implementation libs.springBootDataJpa
     }
 
     tasks.named('test') {
@@ -36,7 +35,7 @@ project(':inventory-service:inventory-starter') {
     }
 
     bootJar {
-        mainClass = 'com.kozubek.paymentstarter.PaymentStarterApplication'
+        mainClass = 'com.kozubek.inventorystarter.InventoryStarterApplication'
     }
 }
 

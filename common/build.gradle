@@ -19,6 +19,9 @@ project(':common:common-application') {
 }
 
 project(':common:common-domain') {
+    dependencies {
+        implementation project(':common:common-ddd-annotations')
+    }
 }
 
 project(':common:common-entity') {

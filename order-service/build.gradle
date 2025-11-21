@@ -28,7 +28,6 @@ project(':order-service:order-starter') {
 
         implementation libs.springCloudEurekaClient
         implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
-//        implementation libs.springBootDataJpa
     }
 
     tasks.named('test') {

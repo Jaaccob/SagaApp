@@ -1,0 +1,6 @@
+### Testing endpoint
+# Request testowy
+# Bez tokenu nie zadziała
+
+GET {{BASE_URL}}/order
+Authorization: Bearer {{ACCESS_TOKEN}}

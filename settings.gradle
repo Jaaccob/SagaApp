@@ -4,12 +4,12 @@ include 'common'
 include 'common:common-application'
 include 'common:common-domain'
 include 'common:common-entity'
+include 'common:common-ddd-annotations'
 
 include 'infrastructure'
 include 'infrastructure:kafka'
 
 include 'discovery-service'
-include 'discovery-service:discovery-application'
 include 'discovery-service:discovery-starter'
 
 include 'gateway-api-service'

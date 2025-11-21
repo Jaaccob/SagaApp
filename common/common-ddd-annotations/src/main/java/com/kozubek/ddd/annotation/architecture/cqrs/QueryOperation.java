@@ -1,0 +1,10 @@
+package com.kozubek.ddd.annotation.architecture.cqrs;
+
+import java.lang.annotation.*;
+
+@Documented
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface QueryOperation {}
+
+

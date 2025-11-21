@@ -6,7 +6,6 @@ import lombok.Getter;
 
 import java.time.Instant;
 
-
 @Getter
 public abstract class ProductEvent implements DomainEvent<Product> {
 

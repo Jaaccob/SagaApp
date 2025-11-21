@@ -1,11 +1,8 @@
 package com.kozubek.productentities;
 
 import com.kozubek.productapplication.query.dto.ProductProjection;
-import org.springframework.stereotype.Component;
 
-@Component
 public class ProductEntityQueryMapper {
-
     public ProductProjection productToProductProjection(final ProductEntity product) {
         return ProductProjection.builder()
                 .productId(product.getId())

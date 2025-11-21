@@ -49,3 +49,51 @@ out/
 /product-service/gradle/wrapper/gradle-wrapper.jar
 /product-service/user-adapters/gradle/wrapper/gradle-wrapper.jar
 /product-service/user-starter/gradle/wrapper/gradle-wrapper.jar
+
+### common module ###
+/common/common-application/build
+/common/common-application/.gradle
+/common/common-ddd-annotations/build
+/common/common-ddd-annotations/.gradle
+/common/common-domain/build
+/common/common-domain/.gradle
+/common/common-entity/build
+/common/common-entity/.gradle
+
+### discoverty-service module ###
+/discovery-service/discovery-starter/build
+/discovery-service/discovery-starter/.gradle
+
+### gateway-api-service  module ###
+/gateway-api-service/gateway-api-starter/build
+/gateway-api-service/gateway-api-starter/.gradle
+
+### inventory-service module ###
+/inventory-service/inventory-adapters/build
+/inventory-service/inventory-adapters/.gradle
+/inventory-service/inventory-starter/build
+/inventory-service/inventory-starter/.gradle
+
+### product-service module ###
+/product-service/product-adapters/build
+/product-service/product-adapters/.gradle
+/product-service/product-application/build
+/product-service/product-application/.gradle
+/product-service/product-domain/build
+/product-service/product-domain/.gradle
+/product-service/product-entities/build
+/product-service/product-entities/.gradle
+/product-service/product-starter/build
+/product-service/product-starter/.gradle
+
+### user-service module ###
+/user-service/user-adapters/build
+/user-service/user-adapters/.gradle
+/user-service/user-application/build
+/user-service/user-application/.gradle
+/user-service/user-domain/build
+/user-service/user-domain/.gradle
+/user-service/user-entities/build
+/user-service/user-entities/.gradle
+/user-service/user-starter/build
+/user-service/user-starter/.gradle

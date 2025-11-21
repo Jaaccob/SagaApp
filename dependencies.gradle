@@ -1,0 +1,103 @@
+// Plik do centralnego zarządzania wersjami bibliotek w projekcie SagaApp
+buildscript {
+    ext {
+        // Spring Core
+        springBootVersion = '3.5.0'
+        springCloudVersion = '2025.0.0'
+
+        // Spring Cloud Components
+        springCloudGatewayVersion = '4.3.0'
+        springCloudNetflixEurekaServerVersion = '4.3.0'
+        springCloudNetflixEurekaClientVersion = '4.3.0'
+
+        // Spring Security
+        springSecurityVersion = '6.4.0'
+
+        // Spring Context
+        springContextVersion = '6.2.10'
+
+        // Database
+        postgresqlVersion = '42.7.4'
+        liquibaseVersion = '4.30.0'
+
+        // Utilities
+        lombokVersion = '1.18.42'
+
+        // Testing
+        junitPlatformVersion = '1.14.1'
+        jqwikVersion = '1.9.3'
+        testcontainersVersion = '1.21.3'
+    }
+}
+
+// Metoda pomocnicza do łatwego definiowania wersji spring-boot
+ext.springBoot = { module ->
+    return "org.springframework.boot:${module}:${springBootVersion}"
+}
+
+// Metoda pomocnicza do łatwego definiowania wersji spring-cloud
+ext.springCloud = { module ->
+    return "org.springframework.cloud:${module}:${springCloudNetflixEurekaServerVersion}"
+}
+
+// Definicje innych pomocnych metod dla różnych bibliotek
+ext.lombok = {
+    return "org.projectlombok:lombok:${lombokVersion}"
+}
+
+ext.postgres = {
+    return "org.postgresql:postgresql:${postgresqlVersion}"
+}
+
+ext.liquibase = {
+    return "org.liquibase:liquibase-core:${liquibaseVersion}"
+}
+
+// Konfiguracja Spring BOM (Bill of Materials)
+ext.configureDependencyManagement = { project ->
+    project.dependencyManagement {
+        imports {
+            mavenBom "org.junit:junit-bom:${junitPlatformVersion}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+        }
+    }
+}
+
+ext.libs = [
+    // Spring Core
+    springBootWeb: "org.springframework.boot:spring-boot-starter-web:${springBootVersion}",
+    springBootTest: "org.springframework.boot:spring-boot-starter-test:${springBootVersion}",
+    springBootSecurity: "org.springframework.boot:spring-boot-starter-security:${springBootVersion}",
+    springBootWebflux: "org.springframework.boot:spring-boot-starter-webflux:${springBootVersion}",
+    springBootDataJpa: "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}",
+    springBootOAuth2ResourceServer: "org.springframework.boot:spring-boot-starter-oauth2-resource-server:${springBootVersion}",
+
+    // Spring Cloud
+    springCloudGatewayWebflux: "org.springframework.cloud:spring-cloud-starter-gateway-server-webflux:${springCloudGatewayVersion}",
+    springCloudEurekaServer: "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server:${springCloudNetflixEurekaServerVersion}",
+    springCloudEurekaClient: "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${springCloudNetflixEurekaClientVersion}",
+
+    // Spring Security
+    springSecurity: "org.springframework.security:spring-security-oauth2-client:${springSecurityVersion}",
+
+    // Spring Context
+    springContext: "org.springframework:spring-context:${springContextVersion}",
+
+    // Database
+    postgresql: "org.postgresql:postgresql:${postgresqlVersion}",
+    liquibase: "org.liquibase:liquibase-core:${liquibaseVersion}",
+
+    // Utilities
+    lombok: "org.projectlombok:lombok:${lombokVersion}",
+
+    // Testing
+    junitPlatform: "org.junit.platform:junit-platform-launcher:${junitPlatformVersion}",
+    junitJupiter: "org.junit.jupiter:junit-jupiter",
+    jqwik: "net.jqwik:jqwik:${jqwikVersion}",
+    testcontainers: "org.testcontainers:testcontainers:${testcontainersVersion}",
+    testcontainersJupiter: "org.testcontainers:junit-jupiter:${testcontainersVersion}",
+    testcontainersPostgresql: "org.testcontainers:postgresql:${testcontainersVersion}",
+    testcontainersKafka: "org.testcontainers:kafka:${testcontainersVersion}",
+    springKafkaTest: "org.springframework.kafka:spring-kafka-test:3.3.10"
+]

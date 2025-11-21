@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.NoArgsConstructor;import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,6 +16,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "products")
 public class ProductEntity implements Serializable {
 

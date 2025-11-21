@@ -1,6 +1,5 @@
 package com.kozubek.userdomain.core;
 
-import com.kozubek.commondomain.model.AggregateRoot;
 import com.kozubek.commondomain.vo.UserId;
 import com.kozubek.userdomain.exceptions.UserDomainException;
 import lombok.Builder;
@@ -11,7 +10,7 @@ import java.util.Set;
 
 @Builder
 @Getter
-public class User implements AggregateRoot {
+public class User  {
     private final UserId id;
     private final String username;
     private final String password;

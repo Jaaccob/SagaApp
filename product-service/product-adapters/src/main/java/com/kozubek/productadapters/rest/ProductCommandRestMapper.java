@@ -5,8 +5,7 @@ import com.kozubek.productapplication.command.dto.CreateProductCommand;
 import org.springframework.stereotype.Component;
 
 @Component
-class ProductCommandRestMapper {
-
+public class ProductCommandRestMapper {
     public CreateProductCommand createProductRequestToCreateProductCommand(final CreateProductRequest createProductRequest) {
         return CreateProductCommand.builder()
                 .userId(createProductRequest.userId())

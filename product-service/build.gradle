@@ -14,11 +14,19 @@ subprojects {
     configureDependencyManagement(it)
 
     dependencies {
+        implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
         compileOnly libs.lombok
         annotationProcessor libs.lombok
         testImplementation libs.springBootTest
 
         implementation project(':common:common-domain')
+        implementation project(':common:common-ddd-annotations')
+        testImplementation libs.junitJupiter
+        testImplementation libs.jqwik
+    }
+
+    test {
+        useJUnitPlatform()
     }
 }
 
@@ -51,6 +59,12 @@ project(':product-service:product-adapters') {
         implementation libs.springBootDataJpa
         implementation libs.liquibase
         implementation libs.postgresql
+        
+        // Test dependencies
+        testImplementation libs.testcontainersJupiter
+        testImplementation libs.testcontainersPostgresql
+        testImplementation libs.testcontainersKafka
+        testImplementation libs.springKafkaTest
     }
 }
 

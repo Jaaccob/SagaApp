@@ -1,0 +1,22 @@
+### Testing endpoint
+# Request testowy
+# Bez tokenu nie zadziała
+
+GET {{BASE_URL}}/product/hello
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+### Create product in system
+# Dodawanie produktu do systemu
+
+POST {{BASE_URL}}/product
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "userId": "0db66d3d-5b0a-41c9-9c06-b47c7f9a998b",
+  "code": "C221",
+  "name": "Długopis",
+  "price": 1.00,
+  "quantity": 15
+}

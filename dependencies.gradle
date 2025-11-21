@@ -101,3 +101,10 @@ ext.libs = [
     testcontainersKafka: "org.testcontainers:kafka:${testcontainersVersion}",
     springKafkaTest: "org.springframework.kafka:spring-kafka-test:3.3.10"
 ]
+
+ext.libs.jackson = [
+        databind: "com.fasterxml.jackson.core:jackson-databind:2.19.0",
+        core: "com.fasterxml.jackson.core:jackson-core:2.19.0",
+        annotations: "com.fasterxml.jackson.core:jackson-annotations:2.19.0",
+        jsr310: "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.19.0"
+]

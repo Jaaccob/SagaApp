@@ -38,6 +38,15 @@ subprojects {
         testRuntimeOnly libs.junitPlatform
     }
 
+    configurations.configureEach {
+        resolutionStrategy {
+            force libs.jackson.databind
+            force libs.jackson.core
+            force libs.jackson.annotations
+            force libs.jackson.jsr310
+        }
+    }
+
     tasks.register('prepareKotlinBuildScriptModel') {
 
     }

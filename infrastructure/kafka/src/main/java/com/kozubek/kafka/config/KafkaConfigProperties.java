@@ -13,6 +13,7 @@ public class KafkaConfigProperties {
     private Integer numOfPartitions;
     private Integer replicationFactor;
     private Producer producer;
+    private Consumer consumer;
 
     @Data
     public static class Producer {
@@ -25,5 +26,24 @@ public class KafkaConfigProperties {
         private Integer lingerMs;
         private Integer requestTimeoutMs;
         private Integer retryCount;
+    }
+
+    @Data
+    public static class Consumer {
+        private String keyDeserializer;
+        private String valueDeserializer;
+        private String autoOffsetReset;
+        private String specificAvroReaderKey;
+        private String specificAvroReader;
+        private Boolean batchListener;
+        private Boolean autoStartup;
+        private Integer concurrencyLevel;
+        private Integer sessionTimeoutMs;
+        private Integer heartbeatIntervalMs;
+        private Integer maxPollIntervalMs;
+        private Long pollTimeoutMs;
+        private Integer maxPollRecords;
+        private Integer maxPartitionFetchBytesDefault;
+        private Integer maxPartitionFetchBytesBoostFactor;
     }
 }

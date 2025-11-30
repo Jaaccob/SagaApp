@@ -1,10 +1,6 @@
 server:
   port: 0
 
-logging:
-  level:
-    com.kozubek.app: DEBUG
-
 spring:
   application:
     name: product-service

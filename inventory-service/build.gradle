@@ -19,14 +19,19 @@ subprojects {
         testImplementation libs.springBootTest
 
         implementation project(':common:common-domain')
+        implementation project(':common:common-ddd-annotations')
     }
 }
 
 project(':inventory-service:inventory-starter') {
     dependencies {
         implementation project(':inventory-service:inventory-adapters')
+        implementation project(':inventory-service:inventory-application')
+        implementation project(':inventory-service:inventory-domain')
+        implementation project(':inventory-service:inventory-entities')
 
         implementation libs.springCloudEurekaClient
+        implementation libs.springBootDataJpa
         implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
     }
 
@@ -41,6 +46,36 @@ project(':inventory-service:inventory-starter') {
 
 project(':inventory-service:inventory-adapters') {
     dependencies {
+        implementation project(':common:common-application')
+        implementation project(':infrastructure:kafka')
+
         implementation libs.springBootWeb
+        implementation libs.springBootDataJpa
+        implementation libs.liquibase
+        implementation libs.postgresql
+    }
+}
+
+project(':inventory-service:inventory-application') {
+    dependencies {
+        implementation project(':common:common-application')
+        implementation project(':inventory-service:inventory-domain')
+
+        implementation libs.springBootWeb
+        implementation libs.springBootDataJpa
+    }
+}
+
+project(':inventory-service:inventory-domain') {
+    dependencies {
+        implementation project(':common:common-domain')
+    }
+}
+
+project(':inventory-service:inventory-entities') {
+    dependencies {
+        implementation project(':common:common-entity')
+
+        implementation libs.springBootDataJpa
     }
 }

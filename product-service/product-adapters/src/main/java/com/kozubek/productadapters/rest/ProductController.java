@@ -1,10 +1,12 @@
 package com.kozubek.productadapters.rest;
 
+import com.kozubek.commondomain.vo.ProductId;
 import com.kozubek.ddd.annotation.architecture.portsandadapters.DrivingAdapter;
 import com.kozubek.productadapters.rest.dto.CreateProductRequest;
 import com.kozubek.productadapters.rest.dto.CreateProductResponse;
 import com.kozubek.productadapters.rest.dto.GetDetailsProductResponse;
 import com.kozubek.productapplication.ProductApplicationService;
+import com.kozubek.productapplication.command.dto.CreateProductCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +35,9 @@ public class ProductController {
 
 	@PostMapping
 	public ResponseEntity<CreateProductResponse> createProduct(@RequestBody final CreateProductRequest createProductRequest) {
-		return ResponseEntity.ok(new CreateProductResponse(productApplicationService.createProduct(productCommandRestMapper.createProductRequestToCreateProductCommand(createProductRequest)).id()));
+        final CreateProductCommand command = productCommandRestMapper.createProductRequestToCreateProductCommand(createProductRequest);
+        final ProductId product = productApplicationService.createProduct(command);
+        return ResponseEntity.ok(new CreateProductResponse(product.id()));
 	}
 
 	@GetMapping("/{productId}")

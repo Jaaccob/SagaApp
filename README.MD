@@ -7,6 +7,7 @@ DATABASE:
         CREATE SCHEMA keycloak;
         CREATE SCHEMA "user";
         CREATE SCHEMA product;
+        CREATE SCHEMA inventory;
     ```
 
 KEYCLOAK:

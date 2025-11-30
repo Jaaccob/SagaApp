@@ -29,6 +29,9 @@ include 'order-service:order-adapters'
 include 'inventory-service'
 include 'inventory-service:inventory-starter'
 include 'inventory-service:inventory-adapters'
+include 'inventory-service:inventory-application'
+include 'inventory-service:inventory-domain'
+include 'inventory-service:inventory-entities'
 
 include 'payment-service'
 include 'payment-service:payment-starter'
@@ -40,7 +43,3 @@ include 'product-service:product-adapters'
 include 'product-service:product-application'
 include 'product-service:product-domain'
 include 'product-service:product-entities'
-
-// Pozostałe moduły
-//include 'infrastructure:kafka'
-//include 'restaurant-service'

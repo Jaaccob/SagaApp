@@ -71,6 +71,12 @@ out/
 ### inventory-service module ###
 /inventory-service/inventory-adapters/build
 /inventory-service/inventory-adapters/.gradle
+/inventory-service/inventory-application/build
+/inventory-service/inventory-application/.gradle
+/inventory-service/inventory-domain/build
+/inventory-service/inventory-domain/.gradle
+/inventory-service/inventory-entities/build
+/inventory-service/inventory-entities/.gradle
 /inventory-service/inventory-starter/build
 /inventory-service/inventory-starter/.gradle
 

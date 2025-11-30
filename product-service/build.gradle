@@ -92,6 +92,6 @@ project(':product-service:product-domain') {
     dependencies {
         implementation project(':common:common-domain')
 
-        implementation libs.springBootWeb
+//        implementation libs.springBootWeb
     }
 }

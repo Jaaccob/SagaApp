@@ -14,7 +14,7 @@ subprojects {
     configureDependencyManagement(it)
 
     dependencies {
-        implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+//        implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
         compileOnly libs.lombok
         annotationProcessor libs.lombok
         testImplementation libs.springBootTest
